@@ -295,32 +295,26 @@ class Solution
         return true;
     }
 
+    //Determine whether an integer is a palindrome. Do this without extra space
+    //Some hints:
+    //Could negative integers be palindromes? (ie, -1)
+    //If you are thinking of converting the integer to string, note the restriction of using extra space.
+    //You could also try reversing an integer.However, if you have solved the problem "Reverse Integer", you know that the reversed integer might overflow.How would you handle such case?
+    //There is a more generic way of solving this problem.
     static bool IsPalindrome(int x)
     {
-        if (x < 0)
+        if (x < 0 || (x % 10 == 0 && x != 0))
         {
             return false;
         }
-        int result = 0;
-        int newX = x;
-        while (newX != 0)
+        int revertedNumber = 0;
+        while (x > revertedNumber)
         {
-            int tail = newX % 10;
-            int newResult = result * 10 + tail;
-            if ((newResult - tail) / 10 != result)
-            {
-                return false;
-            }
-            result = newResult;
-            newX = newX / 10;
+            revertedNumber = revertedNumber * 10 + x % 10;
+            x = x / 10;
         }
-        if (result == x)
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
+
+        return x == revertedNumber || x == revertedNumber / 10;
     }
 
     //Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.
@@ -350,6 +344,7 @@ class Solution
     static void Main(string[] args)
     {
         Console.WriteLine(RemoveDuplicates(new int[] { 1, 1, 2, 2 }));
+        Console.WriteLine(IsPalindrome(1221));
 
         int[] nums = {  3, 2, 4 };
 

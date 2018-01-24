@@ -10,3 +10,9 @@ C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\Con
 C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
 C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
 C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+C:\Users\E460\Documents\GitHub\coding\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\E460\Documents\GitHub\coding\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\E460\Documents\GitHub\coding\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\E460\Documents\GitHub\coding\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\E460\Documents\GitHub\coding\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\E460\Documents\GitHub\coding\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
