@@ -1,0 +1,12 @@
+d:\data\documents\visual studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+d:\data\documents\visual studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+d:\data\documents\visual studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+d:\data\documents\visual studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+d:\data\documents\visual studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+d:\data\documents\visual studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\E460\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
