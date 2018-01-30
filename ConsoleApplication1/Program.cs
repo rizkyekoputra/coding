@@ -558,10 +558,7 @@ public class Solution
 
         int[] nums1 = { 1, 2 };
         int[] nums2 = { 3, 4 };
-        foreach (var item in Codility.MaxCounters(5, new int[] { 3, 4, 4, 6, 1, 4, 4 }))
-        {
-            Console.WriteLine(item);
-        }
+        Console.WriteLine(Codility.PassingCars(new int[] { 0, 1, 0, 1, 1 }));
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };

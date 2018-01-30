@@ -185,5 +185,18 @@ namespace ConsoleApplication1
         {
             return (B / K) - (A / K) + (A % K == 0 ? 1 : 0);
         }
+
+        public static int PassingCars(int[] A)
+        {
+            int comp = 0;
+            int result = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] == 0) comp++;
+                if (A[i] == 1 && comp != 0) result += comp;
+                if (result > 1000000000) return -1;
+            }
+            return result;
+        }
     }
 }
