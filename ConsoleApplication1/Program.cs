@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+
 class Solution
 {
     class NodeBTS
@@ -341,20 +343,221 @@ class Solution
         return count + 1;
     }
 
-    static void Main(string[] args)
+    //Write a function that takes a string as input and returns the string reversed.
+    //Example:
+    //Given s = "hello", return "olleh".
+    static string ReverseString(string s)
     {
-        Console.WriteLine(RemoveDuplicates(new int[] { 1, 1, 2, 2 }));
-        Console.WriteLine(IsPalindrome(1221));
-
-        int[] nums = {  3, 2, 4 };
-
-        foreach (var item in TwoSum(nums, 6))
+        int n = s.Length;
+        StringBuilder newString = new StringBuilder(s);
+        for (int i = 0; i < n/2; i++)
         {
-            Console.WriteLine(item);
+            char temp = newString[n - i - 1];
+            newString[n-i-1] = newString[i];
+            newString[i] = temp;
+        }
+        return newString.ToString();
+    }
+
+    //Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+    //If the last word does not exist, return 0.
+    //Note: A word is defined as a character sequence consists of non-space characters only.
+    //Example:
+    //Input: "Hello World"
+    //Output: 5
+    static int LengthOfLastWord(string s)
+    {
+        if (s.Length == 0)
+        {
+            return 0;
+        }
+        int result = 0;
+        for (int i = s.Length-1; i >= 0; i--)
+        {
+            if (s[i] != ' ')
+            {
+                result++;
+            }
+            else if (s[i] == ' ' && result != 0)
+            {
+                return result;
+            }
+        }
+        return result;
+    }
+
+
+    //You are given two non-empty linked lists representing two non-negative integers.The digits are stored in reverse order and each of their nodes contain a single digit.Add the two numbers and return it as a linked list.
+    //You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+    //Example
+    //Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+    //Output: 7 -> 0 -> 8
+    //Explanation: 342 + 465 = 807.
+    public class ListNode
+    {
+        public int val;
+        public ListNode next;
+        public ListNode(int x) { val = x; }
+    }
+    static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+    {
+        ListNode result = new ListNode(0);
+        ListNode curr = result, p = l1, q = l2;
+        int carry = 0;
+
+        while (p != null || q != null)
+        {
+            int x = p != null ? p.val : 0;
+            int y = q != null ? q.val : 0;
+
+            int temp = x + y + carry;
+            carry = temp / 10;
+            curr.next = new ListNode(temp % 10);
+            curr = curr.next;
+
+            if (p != null) p = p.next;
+            if (q != null) q = q.next;
+        }
+        if (carry > 0)
+        {
+            curr.next = new ListNode(carry);
+        }
+        return result.next;
+    }
+
+    //Given a string, find the length of the longest substring without repeating characters.
+    //Examples:
+    //Given "abcabcbb", the answer is "abc", which the length is 3.
+    //Given "bbbbb", the answer is "b", with the length of 1.
+    //Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+    static int LengthOfLongestSubstring(string s)
+    {
+        if (s.Length == 0) return 0;
+        Dictionary<char, int> charList = new Dictionary<char, int>();
+        int result = 0, max = 0, j = 0;
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (!charList.ContainsKey(s[i]))
+            {
+                charList.Add(s[i], i);
+            } else
+            {
+                j = (j < charList[s[i]] + 1) ? charList[s[i]] + 1 : j;
+                charList[s[i]] = i;
+            }
+            max = i - j + 1;
+            if (max > result) result = max;
+        }
+        return result;
+    }
+
+    //Merge two sorted linked lists and return it as a new list.The new list should be made by splicing together the nodes of the first two lists.
+    //Example:
+    //Input: 1->2->4, 1->3->4
+    //Output: 1->1->2->3->4->4
+    static ListNode MergeTwoLists(ListNode l1, ListNode l2)
+    {
+        ListNode newNode = new ListNode(0);
+        ListNode curr = newNode;
+        while (l1 != null && l2 != null)
+        {
+            if (l1.val <= l2.val)
+            {
+                curr.next = l1;
+                l1 = l1.next;
+            }
+            else
+            {
+                curr.next = l2;
+                l2 = l2.next;
+            }
+            curr = curr.next;
+        }
+        curr.next = l1 == null ? l2 : l1;
+        return newNode.next;
+    }
+
+    //Merge two sorted linked lists and return it as a new list.The new list should be made by splicing together the nodes of the first two lists.
+    //Example:
+    //Input: 1->2->4, 1->3->4
+    //Output: 1->1->2->3->4->4
+    static ListNode mergeTwoListsRecursive(ListNode l1, ListNode l2)
+    {
+        if (l1 == null)
+        {
+            return l2;
+        }
+        else if (l2 == null)
+        {
+            return l1;
+        }
+        else if (l1.val < l2.val)
+        {
+            l1.next = mergeTwoListsRecursive(l1.next, l2);
+            return l1;
+        }
+        else
+        {
+            l2.next = mergeTwoListsRecursive(l1, l2.next);
+            return l2;
         }
 
-        double sesuatu = myPowOptimal(2, 3);
-        Console.WriteLine(sesuatu);
+    }
+
+    //There are two sorted arrays nums1 and nums2 of size m and n respectively.
+    //Find the median of the two sorted arrays.The overall run time complexity should be O(log (m+n)).
+    //Example 1:
+    //nums1 = [1, 3]
+    //    nums2 = [2]
+    //    The median is 2.0
+    //Example 2:
+    //nums1 = [1, 2]
+    //    nums2 = [3, 4]
+    //    The median is (2 + 3)/2 = 2.5
+    static double findMedianSortedArrays(int[] nums1, int[] nums2)
+    {
+        List<int> newNums = new List<int>();
+        int i = 0, j = 0;
+        if (nums1.Length == nums2.Length)
+        {
+            return (double)(nums1[nums1.Length - 1] + nums2[0]) / 2;
+        }
+        while (i < nums1.Length && j < nums2.Length)
+        {
+            if (nums1[i] < nums2[j])
+            {
+                newNums.Add(nums1[i]);
+                i++;
+            } else
+            {
+                newNums.Add(nums2[j]);
+                j++;
+            }
+        }
+        if (i == nums1.Length)
+        {
+            newNums.AddRange(nums2.Skip(j).Take(nums2.Length - j));
+        } else
+        {
+            newNums.AddRange(nums1.Skip(i).Take(nums1.Length - i));
+        }
+        int length = newNums.Count();
+        return length % 2 == 0 ? (double)(newNums[length / 2] + newNums[length / 2 - 1])/2 : newNums[length / 2];
+    }
+
+    static void Main(string[] args)
+    {
+        //ListNode l1 = new ListNode(1);
+        //l1.next = new ListNode(2);
+        //l1.next.next = new ListNode(4);
+
+        //ListNode l2 = new ListNode(1);
+        //l2.next = new ListNode(3);
+        //l2.next.next = new ListNode(4);
+
+        int[] nums1 = { 1, 2 };
+        int[] nums2 = { 3, 4 };
+        Console.WriteLine(findMedianSortedArrays(nums1, nums2));
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };
