@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ConsoleApplication1;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-class Solution
+public class Solution
 {
     class NodeBTS
     {
@@ -557,7 +558,10 @@ class Solution
 
         int[] nums1 = { 1, 2 };
         int[] nums2 = { 3, 4 };
-        Console.WriteLine(findMedianSortedArrays(nums1, nums2));
+        foreach (var item in Codility.MaxCounters(5, new int[] { 3, 4, 4, 6, 1, 4, 4 }))
+        {
+            Console.WriteLine(item);
+        }
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };
