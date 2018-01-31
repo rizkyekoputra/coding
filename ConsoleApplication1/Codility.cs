@@ -198,5 +198,206 @@ namespace ConsoleApplication1
             }
             return result;
         }
+
+        // this solution is based on the fact that there must be minimal average slice
+        // of length 2 or 3 in all the minimal average slices.
+        // we can use the slice of length 4 and 5 to prove it.
+        // if there is a slice of length 4 is the minimal average slice, then
+        // (a1+a2+a3+a4)/4 <= (a1+a2)/2 -> a3+a4 <= a1+a2
+        // (a1+a2+a3+a4)/4 <= (a3+a4)/2 -> a1+a2 <= a3+a4
+        // so a1+a2 = a3+a4 -> (a1+a2+a3+a4)/4 = (a1+a2)/2
+        // if there is a slice of length 5 is the minimal average slice, then
+        // we can use the same method to prove it.
+        // it's easy to conclude that (a1+a2+a3+a4+a5)/5 = (a1+a2)/2 = (a3+a4+a5)/3s
+        public static int MinAvgTwoSlice(int[] A)
+        {
+            //int N = A.Length;
+            //int[] sum = new int[N + 1];
+
+            //for (int i = 0; i < N; i++)
+            //{
+            //    sum[i + 1] = sum[i] + A[i];
+            //}
+
+            //int minTwoSum = int.MaxValue;
+            //int minTwoStartIndex = 0;
+            //for (int i = 0; i < N-1; i++)
+            //{
+            //    int twoSum = (sum[i + 2] - sum[i]);
+            //    if (twoSum < minTwoSum)
+            //    {
+            //        minTwoSum = twoSum;
+            //        minTwoStartIndex = i;
+            //    }
+            //}
+
+            //int minThreeSum = int.MaxValue;
+            //int minThreeStartIndex = 0;
+            //for (int i = 0; i < N - 2; i++)
+            //{
+            //    int threeSum = (sum[i + 3] - sum[i]);
+            //    if (threeSum < minThreeSum)
+            //    {
+            //        minThreeSum = threeSum;
+            //        minThreeStartIndex = i;
+            //    }
+            //}
+
+            //if (minTwoSum * 3 <= minThreeSum * 2)
+            //{
+            //    return minTwoStartIndex;
+            //} else
+            //{
+            //    return minThreeStartIndex;
+            //}
+
+            int min_idx = 0;
+            double min_value = double.MaxValue;
+
+            for (int idx = 0; idx < A.Length - 1; idx++)
+            {
+                if ((A[idx] + A[idx + 1]) / 2.0 < min_value)
+                {
+                    min_idx = idx;
+                    min_value = (A[idx] + A[idx + 1]) / 2.0;
+                }
+                if (idx < A.Length - 2 && (A[idx] + A[idx + 1] + A[idx + 2]) / 3.0 < min_value)
+                {
+                    min_idx = idx;
+                    min_value = (A[idx] + A[idx + 1] + A[idx + 2]) / 3.0;
+                }
+            }
+            return min_idx;
+        }
+
+        public static int[] GenomicRangeQuery(string S, int[] P, int[] Q) // "CAGCCTA"
+        {
+            int N = S.Length;
+            int[] result = new int[P.Length];
+            int[] posOfA = new int[N + 1];
+            int[] posOfC = new int[N + 1];
+            int[] posOfG = new int[N + 1];
+            int[] posOfT = new int[N + 1];
+
+            for (int i = 0; i < N; i++)
+            {
+                posOfA[i + 1] = S[i] == 'A' ? posOfA[i] + 1 : posOfA[i];
+                posOfC[i + 1] = S[i] == 'C' ? posOfC[i] + 1 : posOfC[i];
+                posOfG[i + 1] = S[i] == 'G' ? posOfG[i] + 1 : posOfG[i];
+                posOfT[i + 1] = S[i] == 'T' ? posOfT[i] + 1 : posOfT[i];
+            }
+
+            for (int i = 0; i < P.Length; i++)
+            {
+                if ((posOfA[Q[i]+1] - posOfA[P[i]]) != 0)
+                {
+                    result[i] = 1;
+                } else if ((posOfC[Q[i] + 1] - posOfC[P[i]]) != 0)
+                {
+                    result[i] = 2;
+                } else if ((posOfG[Q[i] + 1] - posOfG[P[i]]) != 0)
+                {
+                    result[i] = 3;
+                } else if ((posOfT[Q[i] + 1] - posOfT[P[i]]) != 0)
+                {
+                    result[i] = 4;
+                }
+            }
+            return result;
+        }
+
+        public static int Triangle(int[] A)
+        {
+            if (A.Length < 3)
+            {
+                return 0;
+            }
+
+            Array.Sort(A);
+
+            for (int i = 0; i < A.Length-2; i++)
+            {
+                if (A[i] > 0 && A[i] > A[i + 2] - A[i + 1])
+                {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+
+        //Quick Sort
+        public static void quickSort(int[] arr, int low, int high)
+        {
+            if (low < high)
+            {
+                int pi = partition(arr, low, high);
+                quickSort(arr, low, pi - 1);
+                quickSort(arr, pi + 1, high);
+            }
+        }
+        public static int partition(int[] arr, int low, int high) //10, 50, 5, 1, 9
+        {
+            int pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++)
+            {
+                if (arr[j] < pivot)
+                {
+                    i++;
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+            int temp2 = arr[i + 1];
+            arr[i + 1] = arr[high];
+            arr[high] = temp2;
+            return i + 1;
+        }
+
+        //MergeSort
+        public static void mergeSort(int[] arr, int[] temp, int leftStart, int rightEnd)
+        {
+            if (leftStart < rightEnd)
+            {
+                int mid = (leftStart + rightEnd) / 2;
+                mergeSort(arr, temp, leftStart, mid);
+                mergeSort(arr, temp, mid + 1, rightEnd);
+                mergeHalf(arr, temp, leftStart, mid, rightEnd);
+            }
+
+        }
+        public static void mergeHalf(int[] arr, int[] temp, int leftStart, int mid, int rightEnd)
+        {
+            int leftEnd = mid;
+            int rightStart = leftEnd + 1;
+
+            int left = leftStart;
+            int right = rightStart;
+            int index = leftStart;
+
+            while ((left <= leftEnd) && (right <= rightEnd))
+            {
+                if (arr[left] <= arr[right])
+                {
+                    temp[index++] = arr[left++];
+                } else
+                {
+                    temp[index++] = arr[right++];
+                }
+            }
+            while (left <= leftEnd)
+            {
+                temp[index++] = arr[left++];
+            }
+            while (right <= rightEnd)
+            {
+                temp[index++] = arr[right++];
+            }
+            for (int i = leftStart; i <= rightEnd; i++)
+            {
+                arr[i] = temp[i];
+            }
+        } 
     }
 }
