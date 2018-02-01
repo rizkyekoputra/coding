@@ -398,6 +398,135 @@ namespace ConsoleApplication1
             {
                 arr[i] = temp[i];
             }
-        } 
+        }
+
+        public static int Brackets(string S)
+        {
+            Stack<int> stack = new Stack<int>();
+            for (int i = 0; i < S.Length; i++)
+            {
+                if (S[i] == '('  || S[i] == '{' || S[i] == '[')
+                {
+                    stack.Push(S[i]);
+                } else
+                {
+                    if (stack.Count <= 0)
+                    {
+                        return 0;
+                    }
+                    var temp = stack.Pop();
+                    if (temp == '(' && S[i] != ')')
+                    {
+                        return 0;
+                    }
+                    if (temp == '{' && S[i] != '}')
+                    {
+                        return 0;
+                    }
+                    if (temp == '[' && S[i] != ']')
+                    {
+                        return 0;
+                    }
+                }
+            }
+            if (stack.Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int EquiLeader(int[] A)
+        {
+            int candidate = -1;
+            int candidate_count = 0;
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (candidate == -1)
+                {
+                    candidate = A[i];
+                    candidate_count++;
+                } else
+                {
+                    if (A[i] != candidate)
+                    {
+                        candidate_count--;
+                        if (candidate_count == 0) candidate = -1;
+                    } else
+                    {
+                        candidate_count++;
+                    }
+                }
+            }
+
+            if (candidate_count == 0) return 0;
+
+            int count = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] == candidate)
+                {
+                    count++;
+                }
+            }
+            if (count < A.Length / 2) return 0;
+
+            int result = 0;
+            int left_count = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] == candidate) left_count++;
+                if ((left_count > (i + 1) / 2) && (count - left_count > (A.Length - i - 1) / 2)) result++;
+                
+            }
+
+            return result;
+
+            //100% correctness and 0% performance
+            //int count1 = 0;
+            //int count2 = 0;
+            //int leader1 = -1;
+            //int leader2 = -1;
+            //int leaderSatu = -1;
+            //int leaderDua = -1;
+            //int result = 0;
+
+            //for (int i = 0; i < A.Length; i++)
+            //{
+            //    for (int j = 0; j <= i ; j++)
+            //    {
+            //        for (int k = 0; k <= i; k++)
+            //        {
+            //            if (A[j] == A[k])
+            //            {
+            //                count1++;
+            //            }
+            //        }
+            //        if (count1 > (i + 1) /2 && count1 > leader1) leaderSatu = A[j];
+            //        count1 = 0;
+            //    }
+
+            //    for (int j = i+1; j < A.Length; j++)
+            //    {
+            //        for (int k = i+1; k < A.Length; k++)
+            //        {
+            //            if (A[j] == A[k])
+            //            {
+            //                count2++;
+            //            }
+            //        }
+            //        if (count2 > (A.Length - i - 1) /2 && count2 > leader2) leaderDua = A[j];
+            //        count2 = 0;
+            //    }
+            //    if (leaderSatu != -1 && leaderDua != -1 && leaderSatu == leaderDua) result++;
+            //    leaderSatu = -1;
+            //    leaderDua = -1;
+            //}
+            //return result;
+        }
     }
 }
