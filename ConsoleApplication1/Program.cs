@@ -563,7 +563,7 @@ public class Solution
         //    Console.WriteLine(item);
         //}
 
-        Console.WriteLine(Codility.EquiLeader(new int[] { 4, 4, 2, 5, 3, 4, 4, 4 }));
+        Console.WriteLine(Codility.FloodDepth(new int[] { 1, 3, 2, 1, 2, 1, 5, 3, 3, 4, 2 }));
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };

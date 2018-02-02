@@ -528,5 +528,76 @@ namespace ConsoleApplication1
             //}
             //return result;
         }
+
+        public static int NumberSolitaire(int[] A)
+        {
+            int[] dp = new int[A.Length];
+            for (int i = 0; i < A.Length; i++)
+            {
+                dp[i] = int.MinValue;
+            }
+
+            dp[0] = A[0];
+            for (int i = 1; i < A.Length; i++)
+            {
+                int max = dp[i - 1];
+                int loop = 1;
+                while (loop <= 6 && i - loop >= 0)
+                {
+                    max = Math.Max(dp[i - loop], max);
+                    loop++;
+                }
+                dp[i] = max + A[i];
+            }
+            return dp[A.Length - 1];
+        }
+
+        public static int TieRopes(int K, int[] A)
+        {
+            int temp = 0;
+            int count = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                temp += A[i];
+                if (temp >= K)
+                {
+                    count++;
+                    temp = 0;
+                }
+            }
+            return count;
+        }
+
+        public static int AbsDistinct(int[] A)
+        {
+            HashSet<int> map = new HashSet<int>();
+            for (int i = 0; i < A.Length; i++)
+            {
+                int temp = A[i] < 0 ? A[i] * -1 : A[i];
+                if (!map.Contains(temp))
+                {
+                    map.Add(temp);
+                }
+            }
+            return map.Count;
+        }
+
+        public static int FloodDepth(int[] A)
+        {
+            int temp = 0;
+            int curr_height = 0;
+            int curr_low = int.MaxValue;
+            int result = 0;
+            Stack<int> stack = new Stack<int>();
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (temp > A[i])
+                {
+                    stack.Push(temp);
+                }
+            }
+            return result;
+        }
     }
 }
