@@ -584,20 +584,139 @@ namespace ConsoleApplication1
 
         public static int FloodDepth(int[] A)
         {
-            int temp = 0;
-            int curr_height = 0;
-            int curr_low = int.MaxValue;
+            int maxLeft = 0;
+            int bottom = 100000000;
             int result = 0;
+            int depth = 0;
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] > maxLeft)
+                {
+                    depth = maxLeft - bottom > 0 ? maxLeft - bottom : 0;
+                    result = Math.Max(result, depth);
+                    maxLeft = A[i];
+                    bottom = 100000000;
+                }
+                bottom = Math.Min(bottom, A[i]);
+                depth = A[i] - bottom;
+                result = Math.Max(result, depth);
+            }
+            return result;
+        }
+
+        public static int Distinct(int[] A)
+        {
+            HashSet<int> map = new HashSet<int>();
+            int count = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (!map.Contains(A[i]))
+                {
+                    map.Add(A[i]);
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public static int MaxProductOfThree(int[] A)
+        {
+            Array.Sort(A);
+            int N = A.Length;
+
+            return Math.Max(A[N - 1] * A[N - 2] * A[N - 3], A[0] * A[1] * A[N - 1]);
+        }
+
+        public static int NumberOfDiscIntersections(int[] A)
+        {
+            long N = A.Length;
+            if (N < 2) return 0;
+            long count = N * (N - 1) / 2;
+            long[] right = new long[N];
+            long[] left = new long[N];
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                right[i] = (long)i + A[i];
+                left[i] = (long)i - A[i];
+            }
+
+            Array.Sort(right);
+            Array.Sort(left);
+            int j = 0;
+            for (int i = 0; i < N; i++)
+            {
+                for (; j < N; j++)
+                {
+                    if (left[j] > right[i])
+                    {
+                        count -= N - j;
+                        break;
+                    }
+                }
+                if (j == N) break;
+            }
+            if (count > 10E6)
+            {
+                return -1;
+            } else
+            {
+                return (int)count;
+            }
+        }
+
+        public static int StoneWall(int[] H)
+        {
+            Stack<int> stack = new Stack<int>();
+            int count = 0;
+
+            for (int i = 0; i < H.Length; i++)
+            {
+                while(stack.Count > 0 && stack.Peek() > H[i])
+                {
+                    stack.Pop();
+                }
+                if (stack.Count != 0 && stack.Peek() == H[i])
+                {
+                    continue;
+                } else
+                {
+                    count++;
+                    stack.Push(H[i]);
+                }
+            }
+            return count;
+        }
+
+        public static int Fish(int[] A, int[] B)
+        {
+            int survival = 0;
             Stack<int> stack = new Stack<int>();
 
             for (int i = 0; i < A.Length; i++)
             {
-                if (temp > A[i])
+                if (B[i] == 1)
                 {
-                    stack.Push(temp);
+                    stack.Push(A[i]);
+                }
+                else
+                {
+                    while(stack.Count != 0)
+                    {
+                        if (A[i] < stack.Peek())
+                        {
+                            break;
+                        } else
+                        {
+                            stack.Pop();
+                        }
+                    }
+                    if (stack.Count == 0) survival++;
                 }
             }
-            return result;
+            survival += stack.Count;
+            return survival;
         }
     }
 }

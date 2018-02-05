@@ -563,7 +563,7 @@ public class Solution
         //    Console.WriteLine(item);
         //}
 
-        Console.WriteLine(Codility.FloodDepth(new int[] { 1, 3, 2, 1, 2, 1, 5, 3, 3, 4, 2 }));
+        Console.WriteLine(Codility.Fish(new int[] { 4, 3, 2, 1, 5 }, new int[] { 0, 1, 0, 0, 0 }));
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };
