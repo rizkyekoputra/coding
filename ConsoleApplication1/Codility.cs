@@ -718,5 +718,77 @@ namespace ConsoleApplication1
             survival += stack.Count;
             return survival;
         }
+
+        public static int soal1(int[] A)
+        {
+            Array.Sort(A);
+            int min = int.MaxValue;
+            for (int i = 0; i < A.Length - 1; i++)
+            {
+                min = Math.Min(min, Math.Abs(A[i] - A[i + 1]));
+            }
+            return min;
+        }
+
+        public static int soal2(int X, int Y, int[] A)
+        {
+            int N = A.Length;
+            int result = -1;
+            int nX = 0;
+            int nY = 0;
+            for (int i = 0; i < N; i++)
+            {
+                if (A[i] == X)
+                    nX += 1;
+                else if (A[i] == Y)
+                    nY += 1;
+                if (nX == nY && nX != 0)
+                    result = i;
+            }
+            return result;
+        }
+
+        public static int soal3 (int[] A)
+        {
+            Dictionary<int, int> map = new Dictionary<int, int>();
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (!map.ContainsKey(A[i]))
+                {
+                    map.Add(A[i], 1);
+                } else
+                {
+                    map[A[i]]++;
+                }
+            }
+
+            int result = int.MaxValue;
+            int temp = 0;
+
+            foreach (var item in map)
+            {
+                int finalPip = item.Key;
+                foreach (var value in map)
+                {
+                    if (value.Key != finalPip)
+                    {
+                        if (7 - value.Key == finalPip)
+                        {
+                            temp += 2;
+                        }
+                        else
+                        {
+                            temp++;
+                        }
+                    }
+                }
+                result = Math.Min(result, temp);
+                temp = 0;
+            }
+            
+
+            return result;
+        }
     }
 }

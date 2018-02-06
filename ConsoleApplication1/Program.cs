@@ -546,6 +546,33 @@ public class Solution
         return length % 2 == 0 ? (double)(newNums[length / 2] + newNums[length / 2 - 1])/2 : newNums[length / 2];
     }
 
+    //Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+    //Note: The solution set must not contain duplicate triplets.
+    //For example, given array S = [-1, 0, 1, 2, -1, -4],
+    //A solution set is:
+    //[
+    //  [-1, 0, 1],
+    //  [-1, -1, 2]
+    //]
+    static List<List<int>> ThreeSum(int[] nums)
+    {
+        HashSet<List<int>> result = new HashSet<List<int>>();
+        for (int i = 0;i < nums.Length - 2; i++)
+        {
+            for (int j = i + 1; j < nums.Length; j++)
+            {
+                int temp = nums[i] + nums[j];
+                if (nums.Contains(temp * -1))
+                {
+                    var tempList = new int[] { nums[i], nums[j], temp * -1 };
+                    Array.Sort(tempList);
+                    if (!result.Contains(tempList.ToList())) result.Add(tempList.ToList());
+                }
+            }
+        }
+        return result.Distinct().ToList();
+    }
+
     static void Main(string[] args)
     {
         //ListNode l1 = new ListNode(1);
@@ -563,7 +590,15 @@ public class Solution
         //    Console.WriteLine(item);
         //}
 
-        Console.WriteLine(Codility.Fish(new int[] { 4, 3, 2, 1, 5 }, new int[] { 0, 1, 0, 0, 0 }));
+        foreach (var item in ThreeSum(new int[] { -1, 0, 1, 2, -1, -4 }))
+        {
+            foreach (var item2 in item)
+            {
+                Console.Write(item2 + " ");
+            }
+            Console.WriteLine();
+        }
+
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };
