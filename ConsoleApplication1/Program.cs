@@ -554,24 +554,122 @@ public class Solution
     //  [-1, 0, 1],
     //  [-1, -1, 2]
     //]
-    static List<List<int>> ThreeSum(int[] nums)
+    static IList<IList<int>> ThreeSum(int[] nums)
     {
-        HashSet<List<int>> result = new HashSet<List<int>>();
-        for (int i = 0;i < nums.Length - 2; i++)
+        Array.Sort(nums); // -4, -1, -1, 0, 1, 2
+        IList<IList<int>> result = new List<IList<int>>();
+
+        for (int i = 0; i < nums.Length - 2; i++)
         {
-            for (int j = i + 1; j < nums.Length; j++)
+            if (i > 0 && nums[i] == nums[i - 1])
             {
-                int temp = nums[i] + nums[j];
-                if (nums.Contains(temp * -1))
+                continue;
+            }
+            int target = -nums[i];
+            int j = i + 1;
+            int k = nums.Length - 1;
+
+            while (j < k)
+            {
+                if (nums[j] + nums[k] == target)
                 {
-                    var tempList = new int[] { nums[i], nums[j], temp * -1 };
-                    Array.Sort(tempList);
-                    if (!result.Contains(tempList.ToList())) result.Add(tempList.ToList());
+                    result.Add(new List<int> { nums[i], nums[j], nums[k] });
+                    while (j < k && nums[j] == nums[j + 1]) j++;
+                    while (j < k && nums[k] == nums[k - 1]) k--;
+                }
+                if (nums[j] + nums[k] < target)
+                {
+                    j++;
+                }
+                else
+                {
+                    k--;
                 }
             }
         }
-        return result.Distinct().ToList();
+        return result;
     }
+
+    //print fibonaci deret mulai dari 0 1 1 2 3 ...
+    static void printFib(int n)
+    {
+        int[] fib = new int[n + 2];
+        fib[0] = 0;
+        fib[1] = 1;
+
+        for (int i = 0; i < n; i++)
+        {
+            Console.Write(fib[i] + " ");
+            fib[i + 2] = fib[i + 1] + fib[i];
+        }
+    }
+
+    //Given a string s, find the longest palindromic substring in s.You may assume that the maximum length of s is 1000.
+    //Example:
+    //Input: "babad"
+    //Output: "bab"
+    //Note: "aba" is also a valid answer.
+    //Example:
+    //Input: "cbbd"
+    //Output: "bb"
+    static string LongestPalindrome(string s)
+    {
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < s.Length; i++)
+        {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.Max(len1, len2);
+            if (len > end - start)
+            {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.Substring(start, end - start + 1);
+    }
+    static int expandAroundCenter(string s, int left, int right)
+    {
+        while (left >= 0 && right < s.Length && s[left] == s[right])
+        {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+
+    //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+    //P   A   H   N
+    //A P L S I I G
+    //Y   I   R
+    //And then read line by line: "PAHNAPLSIIGYIR"
+    //Write the code that will take a string and make this conversion given a number of rows:
+    //string convert(string text, int nRows);
+    //convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
+    static string ConvertString(string s, int numRows)
+    {
+        string newString = ""; 
+        for (int i = 0; i < numRows; i++)
+        {
+            if (i % 2 == 0)
+            {
+                for (int j = i; j < s.Length; j = j + numRows + 1)
+                {
+                    newString += s[j];
+                }
+            } else
+            {
+                for (int j = i; j < s.Length; j = j + (numRows/2) + 1)
+                {
+                    newString += s[j];
+                }
+            }
+            
+        }
+        return newString;
+    }
+
 
     static void Main(string[] args)
     {
@@ -583,22 +681,14 @@ public class Solution
         //l2.next = new ListNode(3);
         //l2.next.next = new ListNode(4);
 
-        int[] nums1 = { 1, 2 };
-        int[] nums2 = { 3, 4 };
+        //int[] nums1 = { 1, 2 };
+        //int[] nums2 = { 3, 4 };
         //foreach (var item in Codility.GenomicRangeQuery("CAGCCTA", new int[] { 0,0,1 }, new int[] { 0,1,1 }))
         //{
         //    Console.WriteLine(item);
         //}
 
-        foreach (var item in ThreeSum(new int[] { -1, 0, 1, 2, -1, -4 }))
-        {
-            foreach (var item2 in item)
-            {
-                Console.Write(item2 + " ");
-            }
-            Console.WriteLine();
-        }
-
+        Console.WriteLine(ConvertString("PAYPALISHIRING", 3));
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };
