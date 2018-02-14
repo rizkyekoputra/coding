@@ -649,30 +649,149 @@ public class Solution
     //convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
     static string ConvertString(string s, int numRows)
     {
-        string newString = ""; 
-        for (int i = 0; i < numRows; i++)
+        string[] result = new string[numRows];
+        for (int z = 0; z < numRows; z++)
         {
-            if (i % 2 == 0)
-            {
-                for (int j = i; j < s.Length; j = j + numRows + 1)
-                {
-                    newString += s[j];
-                }
-            } else
-            {
-                for (int j = i; j < s.Length; j = j + (numRows/2) + 1)
-                {
-                    newString += s[j];
-                }
-            }
-            
+            result[z] = "";
         }
-        return newString;
+
+        int i = 0;
+        int len = s.Length;
+        while (i < len)
+        {
+            for (int j = 0; j < numRows && i < len; j++)
+            {
+                result[j] += s[i++];
+            }
+            for (int k = numRows - 2; k >= 1 && i < len; k--)
+            {
+                result[k] += s[i++];
+            }
+        }
+        return string.Join("", result);
     }
 
+    //Write a program to find the node at which the intersection of two singly linked lists begins.
+    //For example, the following two linked lists:
+    //A:          a1 → a2
+    //                   ↘
+    //                     c1 → c2 → c3
+    //                   ↗            
+    //B:     b1 → b2 → b3
+    //begin to intersect at node c1.
+    //Notes:
+    //If the two linked lists have no intersection at all, return null.
+    //The linked lists must retain their original structure after the function returns.
+    //You may assume there are no cycles anywhere in the entire linked structure.
+    //Your code should preferably run in O(n) time and use only O(1) memory.
+    public static ListNode GetIntersectionNode(ListNode headA, ListNode headB)
+    {
+        ListNode A = headA;
+        ListNode B = headB;
+
+        if (headA == null || headB == null) return null;
+
+        while (A.val != B.val)
+        {
+            if (A.next == null)
+            {
+                A.next = headB;
+            } else
+            {
+                A = A.next;
+            }
+
+            if (B.next == null)
+            {
+                B.next = headA;
+            }
+            else
+            {
+                B = B.next;
+            }
+        }
+
+        if (A.val == B.val)
+        {
+            return A;
+        } else
+        {
+            return null;
+        }
+    }
+
+    //Given a linked list, return the node where the cycle begins.If there is no cycle, return null.
+    //Note: Do not modify the linked list.
+    //Follow up:
+    //Can you solve it without using extra space?
+    public static ListNode DetectCycle(ListNode head)
+    {
+        ListNode curr = head;
+        HashSet<ListNode> map = new HashSet<ListNode>();
+
+        if (head == null) return null;
+
+        while (curr != null)
+        {
+            if (!map.Contains(curr))
+            {
+                map.Add(curr);
+                curr = curr.next;
+            }
+            else
+            {
+                return curr;
+            }
+        }
+        return null;
+    }
+
+    //Given a string containing just the characters '(' and ')', find the length of the longest valid(well-formed) parentheses substring.
+    //For "(()", the longest valid parentheses substring is "()", which has length = 2.
+    //Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+    public static int LongestValidParentheses(string s)
+    {
+        Stack<int> stack = new Stack<int>();
+        Stack<char> stackChar = new Stack<char>();
+        int count = 0;
+        int n = s.Length;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '(')
+            {
+                stack.Push(i);
+                stackChar.Push('(');
+            } else
+            {
+                if (stackChar.Count != 0 && stackChar.Peek() == '(')
+                {
+                    stackChar.Pop();
+                    stack.Pop();
+                } else
+                {
+                    stack.Push(i);
+                }
+            }
+        }
+
+        if (stack.Count == 0) return n;
+        int j = stack.Count;
+        for (int i = 0; i < j; i++)
+        {
+            int pop = stack.Pop();
+            int temp = n - pop - 1;
+            count = Math.Max(count, temp);
+            n = pop;
+        }
+        if (n > 0) count = Math.Max(count, n - 0);
+        return count;
+    }
 
     static void Main(string[] args)
     {
+        Console.WriteLine(LongestValidParentheses("()((())()"));
+
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
         //l1.next.next = new ListNode(4);
@@ -688,7 +807,6 @@ public class Solution
         //    Console.WriteLine(item);
         //}
 
-        Console.WriteLine(ConvertString("PAYPALISHIRING", 3));
 
         //BL SOAL 1
         //int[] A = { 4, 35, 80, 123, 12345, 44, 8, 5, 23, 22, 23, 44, 33, 22 };
