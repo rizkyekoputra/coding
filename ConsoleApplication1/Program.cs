@@ -788,9 +788,142 @@ public class Solution
         return count;
     }
 
+    //Implement atoi to convert a string to an integer.
+    //Hint: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.
+    //Notes: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.
+    //Requirements for atoi:
+    //The function first discards as many whitespace characters as necessary until the first non-whitespace character is found.Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.
+    //The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.
+    //If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.
+    //If no valid conversion could be performed, a zero value is returned.If the correct value is out of the range of representable values, INT_MAX (2147483647) or INT_MIN(-2147483648) is returned.
+    public static int MyAtoi(string str)
+    {
+        long result = 0;
+        int sign = 0;
+        bool num = false;
+        if (str.Length == 0) return (int)result;
+        for (int i = 0; i < str.Length; i++)
+        {
+            if (str[i] == ' ' && result == 0)
+            {
+                if (num || sign != 0) return (int)result;
+            }
+            else if ((str[i] == '-' || str[i] == '+') && !num)
+            {
+                if (sign != 0) return 0;
+                sign = str[i] == '-' ? -1 : 1;
+            }
+            else if (str[i] < '0' || str[i] > '9')
+            {
+                if (sign != 0)
+                {
+                    if (result > int.MaxValue)
+                    {
+                        return int.MinValue;
+                    } else if (result == int.MaxValue)
+                    {
+                        return -1 * int.MaxValue;
+                    } else
+                    {
+                        return (int)result * sign;
+                    }
+                } else
+                {
+                    return result >= int.MaxValue ? int.MaxValue : (int)result;
+                }
+            }
+            else
+            {
+                num = true;
+                result = result * 10 + (str[i] - 48);
+                if (result >= int.MaxValue)
+                {
+                    if (sign == -1)
+                    {
+                        return result == int.MaxValue ? -1 * int.MaxValue : int.MinValue;
+                    }
+                    else if (sign == 1 || sign == 0)
+                    {
+                        return int.MaxValue;
+                    }
+                }
+            }
+        }
+        if (sign != 0) return (int)result * sign;
+
+        return result > int.MaxValue ? int.MaxValue : (int)result;
+    }
+
+    //Definition for a binary tree node.
+    public class TreeNode
+     {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int x) { val = x; }
+    }
+
+    //Given a binary search tree with non-negative values, find the minimum absolute difference between values of any two nodes.
+    //Example:
+    //Input:
+    //   1
+    //    \
+    //     3
+    //    /
+    //   2
+    //Output:
+    //1
+    //Explanation:
+    //The minimum absolute difference is 1, which is the difference between 2 and 1 (or between 2 and 3).
+    //Note: There are at least two nodes in this BST.
+    public static int GetMinimumDifference(TreeNode root)
+    {
+        int result = int.MaxValue;
+        string temp = BSTToString(root).Trim(' ');
+        string[] tempStr = temp.Split(' ').ToArray();
+        int[] tempInt = Array.ConvertAll(tempStr, Int32.Parse);
+        for (int i = 0; i < tempInt.Length - 1; i++)
+        {
+            result = Math.Min(result, tempInt[i + 1] - tempInt[i]);
+        }
+        return result;
+    }
+
+    //Convert BST to String with traversal
+    public static string BSTToString(TreeNode root)
+    {
+        if (root == null) return "";
+        return BSTToString(root.left) + root.val.ToString() + " " + BSTToString(root.right);
+    }
+
+    //---------------------Cara kedua dari soal di atas
+    //static int result = int.MaxValue;
+    //static TreeNode temp = null;
+    //public static int GetMinimumDifference2(TreeNode root)
+    //{
+    //    BSTToString2(root);
+    //    return result;
+    //}
+    
+    //public static void BSTToString2(TreeNode root)
+    //{
+    //    if (root == null) return;
+    //    BSTToString2(root.left);
+    //    if (temp != null)
+    //    {
+    //        result = Math.Min(result, root.val - temp.val);
+    //    }
+    //    temp = root;
+    //    BSTToString2(root.right);
+    //}
+
     static void Main(string[] args)
     {
-        Console.WriteLine(LongestValidParentheses("()((())()"));
+        TreeNode node = new TreeNode(1);
+        node.right = new TreeNode(3);
+        node.right.left = new TreeNode(2);
+
+        Console.WriteLine(GetMinimumDifference2(node));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
