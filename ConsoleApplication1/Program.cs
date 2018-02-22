@@ -1016,13 +1016,52 @@ public class Solution
         }
     }
 
+    //Write a function to find the longest common prefix string amongst an array of strings.
+    public static string LongestCommonPrefix(string[] strs)
+    {
+        if (strs.Length == 0) return "";
+        if (strs.Length == 1) return strs.FirstOrDefault();
+
+        string temp = strs[0];
+        int idx = strs[0].Length; 
+        foreach (var item in strs)
+        {
+            if (item.Length < idx)
+            {
+                temp = item;
+                idx = item.Length;
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+        idx = 0;
+        string final = "";
+        while (idx < temp.Length)
+        {
+            if (result.Length != 0) result.Append(temp[idx]);
+            else result.Insert(0, temp[idx]);
+
+            foreach (var item in strs)
+            {
+                if (!item.Contains(result.ToString()))
+                {
+                    result.Remove(0, 1);
+                    break;
+                }
+            }
+            idx++;
+            final = result.Length > final.Length ? result.ToString() : final;
+        }
+        return final;
+    }
+
     static void Main(string[] args)
     {
         TreeNode node = new TreeNode(1);
         node.right = new TreeNode(3);
         node.right.left = new TreeNode(2);
 
-        Console.WriteLine(RomanToInt("DCXXI"));
+        Console.WriteLine(LongestCommonPrefix(new string[] { "aaaaa", "sdaabcd", "sdaadefres" }));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
