@@ -904,7 +904,7 @@ public class Solution
     //    BSTToString2(root);
     //    return result;
     //}
-    
+
     //public static void BSTToString2(TreeNode root)
     //{
     //    if (root == null) return;
@@ -917,13 +917,112 @@ public class Solution
     //    BSTToString2(root.right);
     //}
 
+    //Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate(i, ai). n vertical lines are drawn such that the two endpoints of line i is at(i, ai) and(i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
+    //Note: You may not slant the container and n is at least 2.
+    public static int MaxArea(int[] height)
+    {
+        int l = 0;
+        int r = height.Length - 1;
+        int result = 0;
+
+        while(l < r)
+        {
+            result = Math.Max(Math.Min(height[l], height[r]) * (r - l), result);
+            if (height[l] < height[r]) l++;
+            else r--;
+        }
+        return result;
+    }
+
+    //Given an integer, convert it to a roman numeral.
+    //Input is guaranteed to be within the range from 1 to 3999.
+    public static string IntToRoman(int num)
+    {
+        Dictionary<int, string> map = new Dictionary<int, string>();
+        map.Add(1000, "M");
+        map.Add(900, "CM");
+        map.Add(500, "D");
+        map.Add(400, "CD");
+        map.Add(100, "C");
+        map.Add(90, "XC");
+        map.Add(50, "L");
+        map.Add(40, "XL");
+        map.Add(10, "X");
+        map.Add(9, "IX");
+        map.Add(5, "V");
+        map.Add(4, "IV");
+        map.Add(1, "I");
+        return processIntToRoman(num, map);
+    }
+
+    public static string processIntToRoman(int num, Dictionary<int, string> map)
+    {
+        int temp = 0;
+        if (num == 0) return "";
+
+        foreach (var item in map)
+        {
+            if (num == item.Key)
+            {
+                temp = item.Key;
+                num -= temp;
+                break;
+            }
+            else if (num > item.Key)
+            {
+                temp = item.Key;
+                num -= temp;
+                break;
+            }
+        }
+        return map[temp] + processIntToRoman(num, map);
+    }
+
+    //Given a roman numeral, convert it to an integer.
+    //Input is guaranteed to be within the range from 1 to 3999.
+    public static int RomanToInt(string s)
+    {
+        Dictionary<string, int> map = new Dictionary<string, int>();
+        map.Add("M", 1000);
+        map.Add("CM", 900);
+        map.Add("D", 500);
+        map.Add("CD", 400);
+        map.Add("C", 100);
+        map.Add( "XC", 90);
+        map.Add( "L", 50);
+        map.Add( "XL", 40);
+        map.Add( "X", 10);
+        map.Add("IX", 9);
+        map.Add("V", 5);
+        map.Add("IV", 4);
+        map.Add("I", 1);
+        return processRomanToInt(s, map);
+    }
+
+    public static int processRomanToInt(string s, Dictionary<string, int> map)
+    {
+        if (s.Length == 0) return 0;
+
+        string oneChar = s.Substring(0,1);
+        string twoChar = "";
+        if (s.Length > 1) twoChar = s.Substring(0,2);
+
+        if (map.ContainsKey(twoChar))
+        {
+            return map[twoChar] + processRomanToInt(s.Substring(2), map);
+        } else
+        {
+            return map[oneChar] + processRomanToInt(s.Substring(1), map);
+        }
+    }
+
     static void Main(string[] args)
     {
         TreeNode node = new TreeNode(1);
         node.right = new TreeNode(3);
         node.right.left = new TreeNode(2);
 
-        Console.WriteLine(GetMinimumDifference2(node));
+        Console.WriteLine(RomanToInt("DCXXI"));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
