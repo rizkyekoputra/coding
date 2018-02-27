@@ -903,5 +903,60 @@ namespace ConsoleApplication1
             }
             return -1;
         }
+
+        //Find a maximum sum of a compact subsequence of array elements.
+        public static int MaxSliceSum(int[] A)
+        {
+            if (A.Length == 0) return 0;
+            int temp = A[0];
+            int result = A[0];
+            for (int i = 1; i < A.Length; i++)
+            {
+                temp = Math.Max(A[i], temp + A[i]);
+                result = Math.Max(result, temp);
+            }
+            return result;
+        }
+
+        //Given a log of stock prices compute the maximum possible earning.
+        public static int MaxProfit(int[] A)
+        {
+            int profit = 0;
+            if (A.Length == 0) return profit;
+            int min = A[0];
+            int max = A[0];
+            for (int i = 1; i < A.Length; i++)
+            {
+                min = Math.Min(A[i], min);
+                if (min == A[i]) max = A[i];
+                else max = Math.Max(max, A[i]);
+                profit = Math.Max(max - min, profit);
+            }
+            return profit;
+        }
+
+        //Find the maximal sum of any double slice.
+        public static int MaxDoubleSliceSum(int[] A)
+        {
+            int N = A.Length;
+            int[] k1 = new int[N];
+            int[] k2 = new int[N];
+
+            for (int i = 1; i < N - 1; i++)
+            {
+                k1[i] = Math.Max(k1[i - 1] + A[i], 0);
+            }
+            for (int i = N - 2; i > 0; i--)
+            {
+                k2[i] = Math.Max(k2[i + 1] + A[i], 0);
+            }
+            int result = 0;
+
+            for (int i = 1; i < N - 1; i++)
+            {
+                result = Math.Max(result, k1[i - 1] + k2[i + 1]);
+            }
+            return result;
+        }
     }
 }

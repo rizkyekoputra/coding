@@ -1100,7 +1100,7 @@ public class Solution
         node.right = new TreeNode(3);
         node.right.left = new TreeNode(2);
 
-        Console.WriteLine(Codility.dominator(new int[] { 3, 4, 3, 2, 3, -1, 3, 3 }));
+        Console.WriteLine(Codility.MaxDoubleSliceSum(new int[] { 3, 2, 6, 0, 0 }));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
@@ -1251,7 +1251,7 @@ public class Solution
         //int[] arr_word = new int[word.Length];
         //for (int i = 0; i < word.Length; i++)
         //{
-        //    arr_word[i] = int.Pase(word[i].ToString());
+        //    arr_word[i] = int.Parse(word[i].ToString());
         //}
         //Array.Sort(arr_word);
         //foreach(var item in arr_word)
