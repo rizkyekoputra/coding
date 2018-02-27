@@ -1017,43 +1017,82 @@ public class Solution
     }
 
     //Write a function to find the longest common prefix string amongst an array of strings.
+    //Divide and Conquer
     public static string LongestCommonPrefix(string[] strs)
     {
         if (strs.Length == 0) return "";
-        if (strs.Length == 1) return strs.FirstOrDefault();
-
-        string temp = strs[0];
-        int idx = strs[0].Length; 
-        foreach (var item in strs)
-        {
-            if (item.Length < idx)
-            {
-                temp = item;
-                idx = item.Length;
-            }
-        }
-
-        StringBuilder result = new StringBuilder();
-        idx = 0;
-        string final = "";
-        while (idx < temp.Length)
-        {
-            if (result.Length != 0) result.Append(temp[idx]);
-            else result.Insert(0, temp[idx]);
-
-            foreach (var item in strs)
-            {
-                if (!item.Contains(result.ToString()))
-                {
-                    result.Remove(0, 1);
-                    break;
-                }
-            }
-            idx++;
-            final = result.Length > final.Length ? result.ToString() : final;
-        }
-        return final;
+        return LongestCommonPrefix(strs, 0, strs.Length - 1);
     }
+    public static string LongestCommonPrefix(string[] strs, int left, int right)
+    {
+        if (left == right) return strs[left];
+        int mid = (left + right) / 2;
+        string lcpLeft = LongestCommonPrefix(strs, left, mid);
+        string lcpRight = LongestCommonPrefix(strs, mid + 1, right);
+        return commonPrefix(lcpLeft, lcpRight);
+    }
+    static string commonPrefix(string left, string right)
+    {
+        int min = Math.Min(left.Length, right.Length);
+        for (int i = 0; i < min; i++)
+        {
+            if (left[i] != right[i]) return left.Substring(0, i);
+        }
+        return left.Substring(0, min);
+    }
+
+    //Original
+    //public static string LongestCommonPrefix(string[] strs)
+    //{
+    //    if (strs.Length == 0) return "";
+    //    if (strs.Length == 1) return strs.FirstOrDefault();
+
+    //    string temp = strs[0];
+    //    int idx = strs[0].Length; 
+    //    foreach (var item in strs)
+    //    {
+    //        if (item.Length < idx)
+    //        {
+    //            temp = item;
+    //            idx = item.Length;
+    //        }
+    //    }
+
+    //    StringBuilder result = new StringBuilder();
+    //    idx = 0;
+    //    string final = "";
+    //    bool flag = false;
+    //    while (idx < temp.Length)
+    //    {
+    //        foreach (var item in strs)
+    //        {
+    //            if (item[idx] != temp[idx])
+    //            {
+    //                flag = true;
+    //                break;
+    //            }
+    //        }
+    //        if (flag) break;
+    //        final += temp[idx];
+    //        idx++;
+    //    }
+    //    return final;
+    //}
+
+    //Approach #1 (Horizontal scanning)
+    //public static string LongestCommonPrefix(string[] strs)
+    //{
+    //    if (strs.Length == 0) return "";
+    //    String prefix = strs[0];
+    //    for (int i = 1; i < strs.Length; i++)
+    //        while (strs[i].IndexOf(prefix) != 0)
+    //        {
+    //            prefix = prefix.Substring(0, prefix.Length - 1);
+    //            if (prefix.Count() == 0) return "";
+    //        }
+    //    return prefix;
+
+    //}
 
     static void Main(string[] args)
     {
@@ -1061,7 +1100,7 @@ public class Solution
         node.right = new TreeNode(3);
         node.right.left = new TreeNode(2);
 
-        Console.WriteLine(LongestCommonPrefix(new string[] { "aaaaa", "sdaabcd", "sdaadefres" }));
+        Console.WriteLine(Codility.dominator(new int[] { 3, 4, 3, 2, 3, -1, 3, 3 }));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
@@ -1085,15 +1124,12 @@ public class Solution
         //if (k >= A.Length) k = A.Length;
         //int maxLengthNumber = 0;
         //int colLength = A.Length % k == 0 ? A.Length / k : A.Length / k + 1;
-
         //foreach (var item in A)
         //{
         //    int temp = item.ToString().Length;
         //    if (maxLengthNumber < temp) maxLengthNumber = temp;
         //}
-
         //string border = "+" + new string('-', maxLengthNumber);
-
         //for (int col = 0; col < colLength; col++)
         //{
         //    for (int row = 0; row < k; row++)
@@ -1119,7 +1155,7 @@ public class Solution
         //}
         //Console.Write('+');
 
-        //BL SOAL 2
+        //-------------BL SOAL 2
         //int[] A = { 5, 4, 4, 5, 0, 12 };
         //int tempNum1 = new Int32();
         //int tempNum2 = new Int32();
@@ -1179,13 +1215,12 @@ public class Solution
         //}
         //Console.WriteLine(result);
 
-        //BL SOAL 3
+        //---------------BL SOAL 3
         //int[] A = { 1, 1, 1, 2, 2, 3, 4, 4, 3, 3, 2, 2, 1, 1, 2, 5 };
         //List<int> newA = new List<int>();
         //int temp = A[0];
         //newA.Add(temp);
         //int j = 1;
-
         //for (int i = 1; i < A.Length; i++)
         //{
         //    if (A[i] != temp)
@@ -1194,9 +1229,7 @@ public class Solution
         //        temp = A[i];
         //    }
         //}
-
         //int result = 2;
-
         //for (int i = 1; i < newA.Count - 1; i++)
         //{
         //    int p = newA[i - 1];

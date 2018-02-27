@@ -719,6 +719,23 @@ namespace ConsoleApplication1
             return survival;
         }
 
+        //that, given a zero-indexed array A consisting of N non-negative integers, returns the minimum distance between two distinct elements of A.
+        //For example, given array A such that:
+        //  A[0] = 8
+        //  A[1] = 24
+        //  A[2] = 3
+        //  A[3] = 20
+        //  A[4] = 1
+        //  A[5] = 17
+        //the function should return 2, because(A[2] − A[4]) = 2 and no other two distinct elements of A have a smaller distance.
+        //Given array A such that:
+        //  A[0] = 7
+        //  A[1] = 21
+        //  A[2] = 3
+        //  A[3] = 42
+        //  A[4] = 3
+        //  A[5] = 7
+        //the function should return 0, because A[0] − A[5] = A[2] − A[4] = 0 and it is the smallest possible distance between two distinct elements of the array.
         public static int soal1(int[] A)
         {
             Array.Sort(A);
@@ -730,6 +747,28 @@ namespace ConsoleApplication1
             return min;
         }
 
+        //Everyone has a favorite number.Jacob's favorite number is X and Jayden's favorite number is Y.A non-empty zero-indexed array A consisting of N integers is given.Jacob and Jayden are interested in occurrences of their favorite numbers X and Y in array A.They are looking for the longest leading fragment (prefix) of array A in which there is an equal number of occurrences of X and Y.More formally, they are looking for the largest P, such that 0 ≤ P<N and the number of occurrences of X equals the number of occurrences of Y in the sequence A[0], A[1], ..., A[P].
+        //For example, consider X = 7, Y = 42 and the following array A:
+        //A[0] = 6
+        //A[1] = 42
+        //A[2] = 11
+        //A[3] = 7
+        //A[4] = 1
+        //A[5] = 42
+        //There are three prefixes of array A containing the same number of occurrences of X and Y:
+        //P = 0: A[0..0] = [6] contains neither 7 nor 42;
+        //P = 3: A[0..3] = [6, 42, 11, 7]
+        //        contains one 7 and one 42;
+        //        P = 4: A[0..4] = [6, 42, 11, 7, 1]
+        //        also contains one 7 and one 42.
+        //The largest value of P we are looking for is 4, because the only longer corresponding prefix A[0..5] contains one 7 and two 42s.
+        //For another example, given
+        //    X = 6, Y = 13
+        //    A[0] = 13
+        //    A[1] = 13
+        //    A[2] = 1
+        //    A[3] = 6
+        //the function should return −1, bacause there is no prefix containing the same number of occurrences of 6 and 13.
         public static int soal2(int X, int Y, int[] A)
         {
             int N = A.Length;
@@ -748,6 +787,17 @@ namespace ConsoleApplication1
             return result;
         }
 
+        //A six-sided die is a small cube with a different number of pips on each face(side), ranging from 1 to 6. On any two opposite sides of the cube, the number of pips adds up to 7; that is, there are three pairs of opposite sides: 1 and 6, 2 and 5, and 3 and 4.
+        //There are N dice lying on a table, each showing the pips on its top face.In one move, you can take one die and rotate it to an adjacent face.For example, you can rotate a die that shows 1 so that it shows 2, 3, 4 or 5. However, it cannot show 6 in a single move, because the faces with one pip and six pips visible are on opposite sides rather than adjacent.
+        //You want to show the same number of pips on the top faces of all N dice.Given that each of the dice can be moved multiple times, count the minimum number of moves needed to get equal faces.
+        //Write a function:
+        //class Solution { public int solution(int[] A); }
+        //        that, given a zero-indexed array A consisting of N integers describing the number of pips(from 1 to 6) shown on each die's top face, returns the minimum number of moves necessary for each die to show the same number of pips.
+        //For example, given:
+        //A = [1, 2, 3], the function should return 2, as you can pick the first two dice and rotate each of them in one move so that they all show three pips on the top face.Notice that you can also pick any other pair of dice in this case.
+        //A = [1, 1, 6], the function should also return 2. The only optimal answer is to rotate the last die so that it shows one pip.It is necessary to use two rotations to achieve this.
+        //A = [1, 6, 2, 3], the function should return 3. For instance, you can make all dice show 2: just rotate each die which is not showing 2 (and notice that for each die you can do this in one move).
+        //Assume that:
         public static int soal3 (int[] A)
         {
             Dictionary<int, int> map = new Dictionary<int, int>();
@@ -789,6 +839,69 @@ namespace ConsoleApplication1
             
 
             return result;
+        }
+
+        //For example, given S = "(()(())())", the function should return 1 and given S = "())", the function should return 0, as explained above.
+        public static int nesting(string S)
+        {
+            Stack<char> stack = new Stack<char>();
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                if (S[i] == '(')
+                {
+                    stack.Push('(');
+                }
+                else
+                {
+                    if (stack.Count == 0)
+                    {
+                        return 0;
+                    }
+                    stack.Pop();
+                }
+            }
+            if (stack.Count == 0) return 1;
+            else return 0;
+        }
+
+        //A zero-indexed array A consisting of N integers is given.The dominator of array A is the value that occurs in more than half of the elements of A.
+        //For example, consider array A such that
+        //A[0] = 3    A[1] = 4    A[2] = 3
+        //A[3] = 2    A[4] = 3    A[5] = -1
+        //A[6] = 3    A[7] = 3
+        //The dominator of A is 3 because it occurs in 5 out of 8 elements of A (namely in those with indices 0, 2, 4, 6 and 7) and 5 is more than a half of 8.
+        public static int dominator(int[] A)
+        {
+            Dictionary<int, int> dic = new Dictionary<int, int>();
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (!dic.ContainsKey(A[i]))
+                {
+                    dic.Add(A[i], 1);
+                } else
+                {
+                    dic[A[i]]++;
+                }
+            }
+            int maxCount = 0;
+            int valueMaxCount = -1;
+            foreach (var item in dic)
+            {
+                if (item.Value > maxCount)
+                {
+                    maxCount = item.Value;
+                    valueMaxCount = item.Key;
+                }
+            }
+            if (maxCount > A.Length / 2)
+            {
+                for (int i = 0; i < A.Length; i++)
+                {
+                    if (A[i] == valueMaxCount) return i;
+                }
+            }
+            return -1;
         }
     }
 }
