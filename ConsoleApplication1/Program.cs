@@ -1100,7 +1100,7 @@ public class Solution
         node.right = new TreeNode(3);
         node.right.left = new TreeNode(2);
 
-        Console.WriteLine(Codility.MaxDoubleSliceSum(new int[] { 3, 2, 6, 0, 0 }));
+        Console.WriteLine(Codility.Peaks(new int[] { 0, 1, 0, 0, 1, 0, 0, 1, 0 }));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);

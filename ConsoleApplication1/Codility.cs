@@ -958,5 +958,66 @@ namespace ConsoleApplication1
             }
             return result;
         }
+
+        //Count factors of given number n.
+        public static int CountFactors(int N)
+        {
+            int count = 0;
+            for (int i = 1; i <= N/i; i++)
+            {
+                if (N % i == 0) count++;
+            }
+            count *= 2;
+
+            if (N % Math.Sqrt(N) == 0) count--;
+
+            return count;
+        }
+
+        //Find the minimal perimeter of any rectangle whose area equals N.
+        public static int MinPerimeterRectangle(int N)
+        {
+            int perimeter = int.MaxValue;
+            for (int i = 1; i <= Math.Sqrt(N); i++)
+            {
+                if (N % i == 0)
+                {
+                    perimeter = Math.Min(perimeter, 2 * (i + N / i));
+                }
+            }
+            return perimeter;
+        }
+
+        //Divide an array into the maximum number of same-sized blocks, each of which should contain an index P such that A[P - 1] < A[P] > A[P + 1].
+        public static int Peaks(int[] A)
+        {
+            int N = A.Length;
+            List<int> peaks = new List<int>();
+            for (int i = 1; i < N - 1; i++)
+            {
+                if (A[i] > A[i - 1] && A[i] > A[i + 1]) peaks.Add(i);
+            }
+
+            for (int size = 1; size <= N; size++)
+            {
+                if (N % size != 0) continue;
+                int groups = N / size;
+                int count = 0;
+                bool flag = true;
+                foreach (var peaksIdx in peaks)
+                {
+                    if (peaksIdx / size > count)
+                    {
+                        flag = false;
+                        break;
+                    }
+                    if (peaksIdx / size == count) count++;
+                }
+                if (count != groups) flag = false;
+                if (flag) return groups;
+            }
+
+            return 0;
+        }
     }
 }
