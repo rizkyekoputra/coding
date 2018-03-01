@@ -1094,13 +1094,106 @@ public class Solution
 
     //}
 
+    //Numeros, the Artist, had two lists  and , such that  was a permutation of . Numeros was very proud of these lists. Unfortunately, while transporting them from one exhibition to another, some numbers were left out of . Can you find the missing numbers?
+    //10
+    //203 204 205 206 207 208 203 204 205 206
+    //13
+    //203 204 204 205 206 207 205 208 203 206 205 206 204
+    //Sample Output
+    //204 205 206
+    static int[] missingNumbers(int[] arr, int[] brr)
+    {
+        Array.Sort(arr);
+        Array.Sort(brr);
+        int AN = arr.Length;
+        int BN = brr.Length;
+
+        int i = 0;
+        int j = 0;
+        List<int> result = new List<int>();
+        while (i < AN || j < BN)
+        {
+            if (i >= AN)
+            {
+                if (!result.Contains(brr[j]))
+                {
+                    result.Add(brr[j]);
+                }
+                j++;
+                continue;
+            }
+            if (j >= BN)
+            {
+                if (!result.Contains(arr[j]))
+                {
+                    result.Add(arr[j]);
+                }
+                i++;
+                continue;
+            }
+            if (arr[i] == brr[j])
+            {
+                i++;
+                j++;
+            }
+            else if (arr[i] > brr[j])
+            {
+                if (!result.Contains(brr[j]))
+                {
+                    result.Add(brr[j]);
+                }
+                j++;
+            }
+            else
+            {
+                if (!result.Contains(arr[j]))
+                {
+                    result.Add(arr[j]);
+                }
+                i++;
+            }
+        }
+        return result.ToArray();
+    }
+
+    class BSTNode
+    {
+        public BSTNode left, right;
+        public int data;
+        public BSTNode(int data)
+        {
+            this.data = data;
+            left = right = null;
+        }
+    }
+
+    //Day 23: BST Level-Order Traversal
+    static void levelOrder(BSTNode root)
+    {
+        Queue<BSTNode> queue = new Queue<BSTNode>();
+        if (root != null)
+        {
+            queue.Enqueue(root);
+
+            while (queue.Count != 0)
+            {
+                BSTNode tree = queue.Dequeue();
+
+                Console.Write(tree.data + " ");
+
+                if (tree.left != null) queue.Enqueue(tree.left);
+                if (tree.right != null) queue.Enqueue(tree.right);
+            }
+        }
+    }
+
     static void Main(string[] args)
     {
         TreeNode node = new TreeNode(1);
         node.right = new TreeNode(3);
         node.right.left = new TreeNode(2);
-
-        Console.WriteLine(Codility.Peaks(new int[] { 0, 1, 0, 0, 1, 0, 0, 1, 0 }));
+        
+        Console.WriteLine(missingNumbers(new int[] { 203, 204, 205, 206, 207, 208, 203, 204, 205, 206 }, new int[] { 203, 204, 204, 205, 206, 207, 205, 208, 203, 206, 205, 206, 204 }));
 
         //ListNode l1 = new ListNode(1);
         //l1.next = new ListNode(2);
